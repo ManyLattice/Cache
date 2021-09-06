@@ -40,6 +40,7 @@ extension MemoryStorage {
   }
 
   public func setObject(_ object: Value, forKey key: Key, expiry: Expiry? = nil) {
+    guard !keys.contains(key) else { return }
     let capsule = MemoryCapsule(value: object, expiry: .date(expiry?.date ?? config.expiry.date))
     cache.setObject(capsule, forKey: WrappedKey(key))
     keys.insert(key)
