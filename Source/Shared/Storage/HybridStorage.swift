@@ -33,7 +33,7 @@ extension HybridStorage: StorageAware {
     } catch {
       let entry = try diskStorage.entry(forKey: key)
       // set back to memoryStorage
-      memoryStorage.setObject(entry.object, forKey: key, expiry: entry.expiry)
+//      memoryStorage.setObject(entry.object, forKey: key, expiry: entry.expiry)
       return entry
     }
   }
