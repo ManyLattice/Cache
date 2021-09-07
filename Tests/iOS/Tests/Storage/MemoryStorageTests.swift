@@ -106,7 +106,6 @@ final class MemoryStorageTests: XCTestCase {
     let key2 = "item2"
     storage.setObject(testObject, forKey: key1, expiry: expiry1)
     storage.setObject(testObject, forKey: key2, expiry: expiry2)
-    storage.removeExpiredObjects()
     let object1 = try? storage.object(forKey: key1)
     let object2 = try! storage.object(forKey: key2)
 

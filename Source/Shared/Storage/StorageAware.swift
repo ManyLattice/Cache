@@ -6,16 +6,6 @@ public protocol StorageAware {
   associatedtype Value
 
   /**
-   Get all keys in the storage
-  */
-  var allKeys: [Key] { get }
-
-  /**
-   Get all objects from the storage
-  */
-  var allObjects: [Value] { get }
-  
-  /**
    Tries to retrieve the object from the storage.
    - Parameter key: Unique key to identify the object in the cache
    - Returns: Cached object or nil if not found
@@ -53,11 +43,6 @@ public protocol StorageAware {
    Removes all objects from the cache storage.
    */
   func removeAll() throws
-
-  /**
-   Clears all expired objects.
-   */
-  func removeExpiredObjects() throws
 
   /**
    Check if an expired object by the given key.

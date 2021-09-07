@@ -18,8 +18,6 @@ public class MemoryStorage<Key: Hashable, Value>: StorageAware {
   }
 
   fileprivate let cache = NSCache<WrappedKey, MemoryCapsule>()
-  // Memory cache keys
-  fileprivate var keys = [Key]()
   /// Configuration
   fileprivate let config: MemoryConfig
 
@@ -31,30 +29,14 @@ public class MemoryStorage<Key: Hashable, Value>: StorageAware {
 }
 
 extension MemoryStorage {
-  public var allKeys: [Key] {
-    keys
-  }
-
-  public var allObjects: [Value] {
-    allKeys.compactMap { try? object(forKey: $0) }
-  }
 
   public func setObject(_ object: Value, forKey key: Key, expiry: Expiry? = nil) {
     let capsule = MemoryCapsule(value: object, expiry: .date(expiry?.date ?? config.expiry.date))
     cache.setObject(capsule, forKey: WrappedKey(key))
-    keys.append(key)
   }
 
   public func removeAll() {
     cache.removeAllObjects()
-    keys.removeAll()
-  }
-
-  public func removeExpiredObjects() {
-    let allKeys = keys
-    for key in allKeys {
-      removeObjectIfExpired(forKey: key)
-    }
   }
 
   public func removeObjectIfExpired(forKey key: Key) {
@@ -65,8 +47,6 @@ extension MemoryStorage {
 
   public func removeObject(forKey key: Key) {
     cache.removeObject(forKey: WrappedKey(key))
-    guard let index = keys.firstIndex(where: { $0 == key }) else { return }
-    keys.remove(at: index)
   }
 
   public func entry(forKey key: Key) throws -> Entry<Value> {
