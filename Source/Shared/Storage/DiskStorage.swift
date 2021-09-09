@@ -167,15 +167,9 @@ extension DiskStorage {
    */
   func makeFileName(for key: Key) -> String {
     if let key = key as? String {
-        let fileExtension = (key as NSString).pathExtension
         let fileName = key.md5
 
-        switch fileExtension.isEmpty {
-        case true:
-          return fileName
-        case false:
-          return "\(fileName).\(fileExtension)"
-        }
+        return fileName
     }
 
     var hasher = self.hasher
